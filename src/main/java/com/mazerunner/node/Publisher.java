@@ -26,7 +26,7 @@ public class Publisher {
             myIp = "127.0.0.1";
         }
 
-        System.out.println("Publishing on: http://" + myIp + ":" + port + "/MazeRunnerNodeWS");
+        System.out.println("Publishing on: http://" + myIp + ":" + port + "/MazeRunnerNodeWS?wsdl");
         Endpoint.publish("http://" + myIp + ":" + port + "/MazeRunnerNodeWS", new MazeRunnerImpl());
     }
 
