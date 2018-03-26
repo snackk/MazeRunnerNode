@@ -17,13 +17,12 @@ public class Publisher {
         if(mazeRunnerProxyConnection == null)
             mazeRunnerProxyConnection = new MazeRunnerProxyConnection();
 
-        String myIp = "";
+        String myIp = "127.0.0.1";
 
         try{
             myIp = mazeRunnerProxyConnection.sendIpBeacon();
         }catch(Exception e){
             System.err.println(e.toString());
-            myIp = "127.0.0.1";
         }
 
         System.out.println("Publishing on: http://" + myIp + ":" + port + "/MazeRunnerNodeWS?wsdl");

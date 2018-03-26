@@ -12,8 +12,7 @@ import javax.jws.WebService;
 public class MazeRunnerImpl implements MazeRunnerService {
 
     private Map<String, String> mapQuery;
-    /*TODO Hardcoded to work on AWS*/
-    private final String raytracerLocation = "/home/ec2-user/cnuv/MazeRunnerNode/src/main/java/com/mazerunner/node/worker";
+    private final String mazeRunnerJarLocation = System.getProperty("user.dir").toString() + "/src/main/java/com/mazerunner/node/worker";
 
     /*
      * x_start
@@ -36,15 +35,15 @@ public class MazeRunnerImpl implements MazeRunnerService {
         Process proc = null;
         try {
             proc = Runtime.getRuntime().exec("java -Djava.awt.headless=true -jar " +
-                    raytracerLocation + "MazeRunner.jar" + " " +
+                    mazeRunnerJarLocation + "MazeRunner.jar" + " " +
                     mapQuery.get(paramsType.x_start.toString()) + " " +
                     mapQuery.get(paramsType.y_start.toString()) + " " +
                     mapQuery.get(paramsType.x_final.toString()) + " " +
                     mapQuery.get(paramsType.y_final.toString()) + " " +
                     mapQuery.get(paramsType.velocity.toString()) + " " +
                     mapQuery.get(paramsType.strategy.toString()) + " " +
-                    raytracerLocation + mapQuery.get(paramsType.maze_file_input.toString()) + " " +
-                    raytracerLocation + mapQuery.get(paramsType.maze_file_output_html.toString()) + " ");
+                    mazeRunnerJarLocation + mapQuery.get(paramsType.maze_file_input.toString()) + ".maze " +
+                    mazeRunnerJarLocation + mapQuery.get(paramsType.maze_file_output_html.toString()) + ".html ");
 
         } catch (IOException e) {
             e.printStackTrace();
