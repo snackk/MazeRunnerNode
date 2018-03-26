@@ -21,7 +21,7 @@ $ mvn clean install
 ### AWS
 
 ```sh
-$ echo "[Private IP of loadbalancer machine on AWS] loadbalancer.local | sudo tee -a /etc/hosts"
+$ echo "[Private IP of loadbalancer machine on AWS] loadbalancer.local" | sudo tee -a /etc/hosts
 ```
 
 ```sh
