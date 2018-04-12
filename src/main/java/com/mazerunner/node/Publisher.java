@@ -10,17 +10,17 @@ public class Publisher {
     private static MazeRunnerProxyConnection mazeRunnerProxyConnection;
     private static final String port = "8888";
 
-    /*Defined on /etc/hosts */
+    /* Defined on /etc/hosts */
     public static String loadBalancerIP = "loadbalancer.local";
 
     public static void main(String[] args) {
         if(mazeRunnerProxyConnection == null)
             mazeRunnerProxyConnection = new MazeRunnerProxyConnection();
 
-        String myIp = "127.0.0.1";
+        String myIp = "";
 
         try{
-            myIp = mazeRunnerProxyConnection.sendIpBeacon();
+            myIp = mazeRunnerProxyConnection.sendIpBeacon(args[0]);
         }catch(Exception e){
             System.err.println(e.toString());
         }

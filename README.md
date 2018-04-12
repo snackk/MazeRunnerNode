@@ -14,29 +14,15 @@ It serves as the workload to drive the project for the Cloud Computing and Virtu
 $ echo "127.0.0.1 loadbalancer.local" | sudo tee -a /etc/hosts
 ```
 
-```sh
-$ mvn clean install
-```
-
 ### AWS
 
 ```sh
 $ echo "[Private IP of loadbalancer machine on AWS] loadbalancer.local" | sudo tee -a /etc/hosts
 ```
 
+## Run
 ```sh
-$ mvn clean install
-```
-
-## n th time building
-
-```sh
-$ mvn compile
-```
-
-### Run
-```sh
-$ mvn exec:java
+$ mvn clean exec:java -Dexec.args=localhost
 ```
 
   Written by Diogo Santos.

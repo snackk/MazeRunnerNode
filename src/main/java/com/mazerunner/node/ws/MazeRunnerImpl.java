@@ -2,9 +2,13 @@ package com.mazerunner.node.ws;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.jws.WebService;
 
@@ -12,7 +16,7 @@ import javax.jws.WebService;
 public class MazeRunnerImpl implements MazeRunnerService {
 
     private Map<String, String> mapQuery;
-    private final String mazeRunnerJarLocation = System.getProperty("user.dir").toString() + "/src/main/java/com/mazerunner/node/worker";
+    private final String mazeRunnerJarLocation = System.getProperty("user.dir").toString() + "/src/main/java/com/mazerunner/node/worker/";
 
     /*
      * x_start
@@ -30,7 +34,13 @@ public class MazeRunnerImpl implements MazeRunnerService {
     public String solveMaze(String uriQuery) {
         queryToMap(uriQuery);
 
+        System.out.println("========================================================");
         System.out.println("Request to render query: " + uriQuery);
+
+        try {
+            Files.createFile(Paths.get(mazeRunnerJarLocation + mapQuery.get(paramsType.maze_file_output_html.toString()) + ".html"));
+        } catch (IOException ignore) {
+        }
 
         Process proc = null;
         try {
@@ -49,22 +59,24 @@ public class MazeRunnerImpl implements MazeRunnerService {
             e.printStackTrace();
         }
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-        String line = null;
-        String responseData = "";
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(mazeRunnerJarLocation + mapQuery.get(paramsType.maze_file_output_html.toString()) + ".html"))) {
 
-        try {
-            while((line = br.readLine()) != null) {
-                responseData += line;
-            }
+            lines = br.lines().collect(Collectors.toList());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("========================================================");
-        System.out.println(responseData);
+
+        String responseData = "";
+        for(String line : lines) {
+            responseData += "\n" + line;
+        }
+
+        System.out.println("Finished rendering: " + uriQuery);
         System.out.println("========================================================");
 
-        return uriQuery;
+        return responseData;
     }
 
     private void queryToMap(String query){

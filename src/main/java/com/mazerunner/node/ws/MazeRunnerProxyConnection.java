@@ -17,10 +17,10 @@ import java.util.List;
 
 public class MazeRunnerProxyConnection {
 
-    public String sendIpBeacon() throws Exception {
+    public String sendIpBeacon(String defaultIP) throws Exception {
 
         String url = "http://" + Publisher.loadBalancerIP + ":8080/r_ip.html";
-        String myIp = getMyIp();
+        String myIp = !defaultIP.equals("") ? defaultIP : getMyIp();
 
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("ip", myIp));
