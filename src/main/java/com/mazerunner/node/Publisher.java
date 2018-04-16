@@ -11,7 +11,7 @@ public class Publisher {
     private static final String port = "8888";
 
     /* Defined on /etc/hosts */
-    public static String loadBalancerIP = "loadbalancer.local";
+    public static String loadBalancerIP = "34.233.71.223";//"loadbalancer.local";
 
     public static void main(String[] args) {
         if(mazeRunnerProxyConnection == null)

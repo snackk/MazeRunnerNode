@@ -19,7 +19,7 @@ public class MazeRunnerProxyConnection {
 
     public String sendIpBeacon(String defaultIP) throws Exception {
 
-        String url = "http://" + Publisher.loadBalancerIP + ":8080/r_ip.html";
+        String url = "http://" + Publisher.loadBalancerIP + ":8000/r_ip.html";
         String myIp = !defaultIP.equals("") ? defaultIP : getMyIp();
 
         List<NameValuePair> params = new LinkedList<NameValuePair>();

@@ -33,10 +33,10 @@ public class MazeRunnerImpl implements MazeRunnerService {
     @Override
     public String solveMaze(String uriQuery) {
         queryToMap(uriQuery);
-
+        System.out.println("jar location ->" + mazeRunnerJarLocation);
         System.out.println("========================================================");
         System.out.println("Request to render query: " + uriQuery);
-
+        System.out.println(mapQuery);
         try {
             Files.createFile(Paths.get(mazeRunnerJarLocation + mapQuery.get(paramsType.maze_file_output_html.toString()) + ".html"));
         } catch (IOException ignore) {
@@ -44,25 +44,31 @@ public class MazeRunnerImpl implements MazeRunnerService {
 
         Process proc = null;
         try {
-            proc = Runtime.getRuntime().exec("java -Djava.awt.headless=true -jar " +
+            String execString = "java -jar " +
                     mazeRunnerJarLocation + "MazeRunner.jar" + " " +
-                    mapQuery.get(paramsType.x_start.toString()) + " " +
-                    mapQuery.get(paramsType.y_start.toString()) + " " +
-                    mapQuery.get(paramsType.x_final.toString()) + " " +
-                    mapQuery.get(paramsType.y_final.toString()) + " " +
-                    mapQuery.get(paramsType.velocity.toString()) + " " +
-                    mapQuery.get(paramsType.strategy.toString()) + " " +
-                    mazeRunnerJarLocation + mapQuery.get(paramsType.maze_file_input.toString()) + ".maze " +
-                    mazeRunnerJarLocation + mapQuery.get(paramsType.maze_file_output_html.toString()) + ".html ");
+                    mapQuery.get("x0") + " " +
+                    mapQuery.get("y0") + " " +
+                    mapQuery.get("x1") + " " +
+                    mapQuery.get("y1") + " " +
+                    mapQuery.get("v") + " " +
+                    mapQuery.get("s") + " " +
+                    mazeRunnerJarLocation + mapQuery.get("m") + ".maze " +
+                    mazeRunnerJarLocation + mapQuery.get("m") + ".html ";
+            System.out.println(execString);
+            proc = Runtime.getRuntime().exec(execString);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = Files.newBufferedReader(Paths.get(mazeRunnerJarLocation + mapQuery.get(paramsType.maze_file_output_html.toString()) + ".html"))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(mazeRunnerJarLocation + mapQuery.get("m") + ".html"))) {
 
             lines = br.lines().collect(Collectors.toList());
+            String line;
+            while((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,6 +81,7 @@ public class MazeRunnerImpl implements MazeRunnerService {
 
         System.out.println("Finished rendering: " + uriQuery);
         System.out.println("========================================================");
+        System.out.println(responseData);
 
         return responseData;
     }
