@@ -25,7 +25,8 @@ public class MazeRunnerProxyConnection {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("ip", myIp));
         String paramString = URLEncodedUtils.format(params, "UTF-8");
-
+	System.out.println("my ip->" + myIp);
+	System.out.println("url ->" + url);
         URLConnection connection = new URL(url + "?" + paramString).openConnection();
 
         connection.setRequestProperty("Accept-Charset", "UTF-8");

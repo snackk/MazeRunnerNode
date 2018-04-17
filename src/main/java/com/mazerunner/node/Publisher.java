@@ -11,16 +11,21 @@ public class Publisher {
     private static final String port = "8888";
 
     /* Defined on /etc/hosts */
-    public static String loadBalancerIP = "34.233.71.223";//"loadbalancer.local";
+    public static String loadBalancerIP = "ec2-35-170-67-66.compute-1.amazonaws.com";//"loadbalancer.local";
 
     public static void main(String[] args) {
-        if(mazeRunnerProxyConnection == null)
+	if(mazeRunnerProxyConnection == null)
             mazeRunnerProxyConnection = new MazeRunnerProxyConnection();
 
         String myIp = "";
 
         try{
-            myIp = mazeRunnerProxyConnection.sendIpBeacon(args[0]);
+	    String defaultIp;
+	    if(args.length > 0)
+		defaultIp = args[0];
+	    else
+		defaultIp = "";
+            myIp = mazeRunnerProxyConnection.sendIpBeacon(defaultIp);
         }catch(Exception e){
             System.err.println(e.toString());
         }
