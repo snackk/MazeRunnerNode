@@ -32,7 +32,6 @@ public class MazeRunnerImpl implements MazeRunnerService {
     @Override
     public String solveMaze(String uriQuery) {
         queryToMap(uriQuery);
-        mapQuery.put(paramsType.m.toString(), (mapQuery.get(paramsType.m.toString()).split("\\."))[0]);
         System.out.println("========================================================");
         System.out.println("Request to solve query: " + uriQuery);
         try {
