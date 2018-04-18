@@ -16,7 +16,7 @@ import javax.jws.WebService;
 public class MazeRunnerImpl implements MazeRunnerService {
 
     private Map<String, String> mapQuery;
-    private final String mazeRunnerJarLocation = System.getProperty("user.dir").toString() + "/src/main/java/com/mazerunner/node/worker/";
+    private final String mazeRunnerJarLocation = System.getProperty("user.dir").toString() + "/worker/";
 
     /*
      * x0 -> initial x
@@ -53,8 +53,9 @@ public class MazeRunnerImpl implements MazeRunnerService {
                     mazeRunnerJarLocation + mapQuery.get(paramsType.m.toString()) + ".maze " +
                     mazeRunnerJarLocation + mapQuery.get(paramsType.m.toString()) + ".html ";
             proc = Runtime.getRuntime().exec(execString);
+            proc.waitFor();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
