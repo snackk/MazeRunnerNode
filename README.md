@@ -20,9 +20,20 @@ $ echo "127.0.0.1 loadbalancer.local" | sudo tee -a /etc/hosts
 $ echo "[Private IP of loadbalancer machine on AWS] loadbalancer.local" | sudo tee -a /etc/hosts
 ```
 
-## Run
+### Deploy
+```sh
+$ mvn clean package
+$ scp -i path/of/pem target/MazeRunnerNode-1.0-SNAPSHOT-jar-with-dependencies.jar ec2-user@NodeIpOnAWS
+```
+
+## Run (localhost)
 ```sh
 $ mvn clean exec:java -Dexec.args=localhost
+```
+
+## Run (AWS)
+```sh
+$ java -jar MazeRunnerNode-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
   Written by Diogo Santos.

@@ -1,5 +1,7 @@
 .idea/
 *.iml
+*.class
+*.html
 
 target/
 pom.xml.tag

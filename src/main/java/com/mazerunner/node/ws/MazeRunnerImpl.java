@@ -59,34 +59,18 @@ public class MazeRunnerImpl implements MazeRunnerService {
             e.printStackTrace();
         }
 
-        List<String> lines = new ArrayList<>();
+        String responseData = "";
         try {
             String filename = mazeRunnerJarLocation + mapQuery.get(paramsType.m.toString()) + ".html";
             FileReader in = new FileReader(filename.toString());
             BufferedReader br = new BufferedReader(in);
             String line = br.readLine();
             while(line != null){
-                lines.add(line);
+                responseData += "\n" + line;
                 line = br.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        /*try (BufferedReader br = Files.newBufferedReader(Paths.get(mazeRunnerJarLocation + mapQuery.get(paramsType.m.toString()) + ".html"))) {
-
-            lines = br.lines().collect(Collectors.toList());
-            String line;
-            while((line = br.readLine()) != null) {
-                System.out.println(line);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-        String responseData = "";
-        for(String line : lines) {
-            responseData += "\n" + line;
         }
 
         System.out.println("Finished solving: " + uriQuery);
