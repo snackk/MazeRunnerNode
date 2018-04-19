@@ -16,7 +16,7 @@ import javax.jws.WebService;
 public class MazeRunnerImpl implements MazeRunnerService {
 
     private Map<String, String> mapQuery;
-    private final String mazeRunnerJarLocation = System.getProperty("user.dir").toString() + "/worker/";
+    private final String mazeRunnerJarLocation = "/home/ec2-user/worker/";
 
     /*
      * x0 -> initial x
@@ -65,6 +65,7 @@ public class MazeRunnerImpl implements MazeRunnerService {
             FileReader in = new FileReader(filename.toString());
             BufferedReader br = new BufferedReader(in);
             String line = br.readLine();
+            
             while(line != null){
                 responseData += "\n" + line;
                 line = br.readLine();
