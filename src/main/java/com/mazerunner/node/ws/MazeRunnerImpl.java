@@ -32,11 +32,13 @@ public class MazeRunnerImpl implements MazeRunnerService {
     @Override
     public String solveMaze(String uriQuery) {
         queryToMap(uriQuery);
+	String mazeName = mapQuery.get(paramsType.m.toString()).split("\\.")[0];
+	System.out.println(mazeName);
         System.out.println("========================================================");
         System.out.println("Request to solve query: " + uriQuery);
         try {
 
-            Files.createFile(Paths.get(mazeRunnerJarLocation + mapQuery.get(paramsType.m.toString()) + ".html"));
+            Files.createFile(Paths.get(mazeRunnerJarLocation + mazeName + ".html"));
         } catch (IOException ignore) {
         }
 
@@ -50,8 +52,8 @@ public class MazeRunnerImpl implements MazeRunnerService {
                     mapQuery.get(paramsType.y1.toString()) + " " +
                     mapQuery.get(paramsType.v.toString()) + " " +
                     mapQuery.get(paramsType.s.toString()) + " " +
-                    mazeRunnerJarLocation + mapQuery.get(paramsType.m.toString()) + ".maze " +
-                    mazeRunnerJarLocation + mapQuery.get(paramsType.m.toString()) + ".html ";
+                    mazeRunnerJarLocation + mazeName + ".maze " +
+                    mazeRunnerJarLocation + mazeName + ".html ";
             proc = Runtime.getRuntime().exec(execString);
             proc.waitFor();
 
@@ -61,7 +63,7 @@ public class MazeRunnerImpl implements MazeRunnerService {
 
         String responseData = "";
         try {
-            String filename = mazeRunnerJarLocation + mapQuery.get(paramsType.m.toString()) + ".html";
+            String filename = mazeRunnerJarLocation + mazeName + ".html";
             FileReader in = new FileReader(filename.toString());
             BufferedReader br = new BufferedReader(in);
             String line = br.readLine();
