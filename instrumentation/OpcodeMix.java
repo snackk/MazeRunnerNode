@@ -1,7 +1,15 @@
+
+/*
+Statistics regarding opcode distribution and execution
+Analyzes all instructions and instruments them by incrementing counter related to opcode.
+Used to analyze the distribution of the instructions executed by a request.
+*/
+
 import BIT.highBIT.*;
 import BIT.lowBIT.*;
 import java.io.*;
 import java.util.*;
+
 
 public class OpcodeMix {
 	private static Map<String, Integer> instructionsMap = new HashMap<String,Integer>();
