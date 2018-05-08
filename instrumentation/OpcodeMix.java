@@ -1,15 +1,7 @@
-
-/*
-Statistics regarding opcode distribution and execution
-Analyzes all instructions and instruments them by incrementing counter related to opcode.
-Used to analyze the distribution of the instructions executed by a request.
-*/
-
 import BIT.highBIT.*;
 import BIT.lowBIT.*;
 import java.io.*;
 import java.util.*;
-
 
 public class OpcodeMix {
 	private static Map<String, Integer> instructionsMap = new HashMap<String,Integer>();
@@ -26,14 +18,15 @@ public class OpcodeMix {
 			
 				for (Enumeration e = ci.getRoutines().elements(); e.hasMoreElements(); ) {
 					Routine routine = (Routine) e.nextElement();
-				
-					for (Enumeration i = routine.getInstructionArray().elements(); i.hasMoreElements();){
-						Instruction instr = (Instruction) i.nextElement();
-						String instrType = InstructionTable.InstructionTypeName[InstructionTable.InstructionTypeTable[instr.getOpcode()]]; 
-						instr.addBefore("OpcodeMix", "registerInstrType", instrType);
+					if(routine.getMethodName().equals("run")){
+						for (Enumeration i = routine.getInstructionArray().elements(); i.hasMoreElements();){
+							Instruction instr = (Instruction) i.nextElement();
+							String instrType = InstructionTable.InstructionTypeName[InstructionTable.InstructionTypeTable[instr.getOpcode()]]; 
+							instr.addBefore("OpcodeMix", "registerInstrType", instrType);
+						}
+						routine.addAfter("OpcodeMix", "printMix", "whatever");
 					}
 				}
-				ci.addAfter("OpcodeMix", "printMix", ci.getClassName());
 				ci.write(argv[1] + System.getProperty("file.separator") + infilename);
 			}
 		}
@@ -49,11 +42,21 @@ public class OpcodeMix {
 	}
 
 	public static synchronized void printMix(String foo){
-		Iterator it = instructionsMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry)it.next();
-			System.out.println(pair.getKey() + " = " + pair.getValue());
-			it.remove();
+		String pathToFile = "/home/ec2-user/";
+		String outputFilename = "metrics.txt";
+		try{
+			FileWriter fw = new FileWriter(pathToFile + outputFilename,true );
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.append("===================\n");
+			Iterator it = instructionsMap.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry pair = (Map.Entry)it.next();
+				bw.append(pair.getKey() + " = " + pair.getValue() + "\n");
+				it.remove();
+			}
+			bw.close();
+		} catch(IOException ioe){
+			ioe.printStackTrace();	
 		}
 	}
 }
