@@ -1,4 +1,3 @@
 #!/bin/bash
 
-find -name "*.class" -delete
-rm "*.html"
+find -name "*.class*" -or -name "*.html" -delete

@@ -16,8 +16,10 @@ import javax.jws.WebService;
 public class MazeRunnerImpl implements MazeRunnerService {
 
     private Map<String, String> mapQuery;
-    private final String mazeRunnerJarLocation = "/home/ec2-user/worker/";
-
+    
+    private final String mazeRunnerLocation = "/home/ec2-user/worker/";
+    private final String workerClasspath = "/home/ec2-user/instrumentation:" + mazeRunnerLocation + "src/main/java/";
+    private final String mazeRunnerClass = "pt.ulisboa.tecnico.meic.cnv.mazerunner.maze.Main";
     /*
      * x0 -> initial x
      * y0 -> initial y
@@ -33,27 +35,27 @@ public class MazeRunnerImpl implements MazeRunnerService {
     public String solveMaze(String uriQuery) {
         queryToMap(uriQuery);
 	String mazeName = mapQuery.get(paramsType.m.toString()).split("\\.")[0];
-	System.out.println(mazeName);
         System.out.println("========================================================");
         System.out.println("Request to solve query: " + uriQuery);
         try {
 
-            Files.createFile(Paths.get(mazeRunnerJarLocation + mazeName + ".html"));
+            Files.createFile(Paths.get(mazeRunnerLocation + mazeName + ".html"));
         } catch (IOException ignore) {
         }
 
         Process proc = null;
         try {
-            String execString = "java -jar " +
-                    mazeRunnerJarLocation + "MazeRunner.jar" + " " +
+            String execString = "java -cp " +
+                    workerClasspath + " " + mazeRunnerClass + " " + 
                     mapQuery.get(paramsType.x0.toString()) + " " +
                     mapQuery.get(paramsType.y0.toString()) + " " +
                     mapQuery.get(paramsType.x1.toString()) + " " +
                     mapQuery.get(paramsType.y1.toString()) + " " +
                     mapQuery.get(paramsType.v.toString()) + " " +
                     mapQuery.get(paramsType.s.toString()) + " " +
-                    mazeRunnerJarLocation + mazeName + ".maze " +
-                    mazeRunnerJarLocation + mazeName + ".html ";
+                    mazeRunnerLocation + mazeName + ".maze " +
+                    mazeRunnerLocation + mazeName + ".html ";
+		System.out.println(execString);
             proc = Runtime.getRuntime().exec(execString);
             proc.waitFor();
 
@@ -63,7 +65,7 @@ public class MazeRunnerImpl implements MazeRunnerService {
 
         String responseData = "";
         try {
-            String filename = mazeRunnerJarLocation + mazeName + ".html";
+            String filename = mazeRunnerLocation + mazeName + ".html";
             FileReader in = new FileReader(filename.toString());
             BufferedReader br = new BufferedReader(in);
             String line = br.readLine();
