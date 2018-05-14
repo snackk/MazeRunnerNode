@@ -1,9 +1,11 @@
-package com.mazerunner.webserver.mss;
+package com.mazerunner.node.mss;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
@@ -79,7 +81,7 @@ public class MSSManagerNode {
 		    .build();
 	}
 	
-	public void putMetrics(int threadId) {
+	public void putMetrics(long threadId) {
 
 	        Map<String, AttributeValue> item = parseMetricsFile(threadId);
 			
@@ -89,16 +91,16 @@ public class MSSManagerNode {
 	            PutItemRequest putItemRequest = new PutItemRequest(METRICS_TABLE_NAME, item);
 	            PutItemResult outcome = dynamoDB.putItem(putItemRequest);
 
-	            System.out.println("PutItem succeeded:\n" + outcome.toString());
+	            System.out.println("PutItem succeeded:" + outcome.toString());
 
 	        }
 	        catch (Exception e) {
-	            System.err.println("Unable to add item: " + "x0 " + "0");
+	            System.err.println("Unable to add item: " + item);
 	            System.err.println(e.getMessage());
 	        }
 	}
 
-	private Map<String, AttributeValue> parseMetricsFile(int threadId) {
+	private Map<String, AttributeValue> parseMetricsFile(long threadId) {
 		
 		Map<String, AttributeValue> map = new HashMap<String, AttributeValue>();
 		
@@ -114,6 +116,8 @@ public class MSSManagerNode {
 				String[] split = p.split("=");
 				map.put(split[0], new AttributeValue(split[1]));
 			}
+			String date = new SimpleDateFormat("yyyMMddHHmmssSS").format(new Date());
+			map.put("id", new AttributeValue(date.toString()));
 		} catch(IOException ioe) {
 			ioe.printStackTrace();
 		}

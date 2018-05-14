@@ -23,7 +23,7 @@ import pt.ulisboa.tecnico.meic.cnv.mazerunner.maze.Main;
 public class MazeRunnerImpl implements MazeRunnerService {
 
     private Map<String, String> mapQuery;
-    private MSSManagerNode mssmanager = MSSManager.getInstance();
+    private MSSManagerNode mssmanager = MSSManagerNode.getInstance();
 
     private final String mazeRunnerLocation = "/home/ec2-user/worker/";
     private final String workerClasspath = "/home/ec2-user/instrumentation:" + mazeRunnerLocation + "src/main/java/";
@@ -72,7 +72,7 @@ public class MazeRunnerImpl implements MazeRunnerService {
 	    Main.main(new String[] {mapQuery.get(paramsType.x0.toString()),mapQuery.get(paramsType.y0.toString()),mapQuery.get(paramsType.x1.toString()),
 				mapQuery.get(paramsType.y1.toString()),mapQuery.get(paramsType.v.toString()),
 				mapQuery.get(paramsType.s.toString()), mazeRunnerLocation + mazeName + ".maze", mazeRunnerLocation + mazeName +".html"});
-            mssmanager.putMetric(Thread.currentThread().getId());            
+            mssmanager.putMetrics(Thread.currentThread().getId());            
 	} catch (Exception e) {
             e.printStackTrace();
         }
