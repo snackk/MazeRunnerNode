@@ -35,6 +35,7 @@ public class BBLCount {
 					else if (ci.getClassName().equals(strategiesPath + "DepthFirstSearchStrategy")) {
 						if (routine.getMethodName().equals("solveAux")) {
 							for (Enumeration b = routine.getBasicBlocks().elements(); b.hasMoreElements(); ) {
+								
 								BasicBlock bb = (BasicBlock) b.nextElement();
 								bb.addBefore("BBLCount", "countBB", new Integer(1));
 							}
@@ -52,13 +53,12 @@ public class BBLCount {
 	}
 
 	public static synchronized void register(String foo) {
-		String pathToFile = "/home/ec2-user/";
-		String outputFilename = "metrics.txt";
+		String pathToFile = "/home/ec2-user/metricfiles/";
+		String outputFilename = "metrics-" +  Thread.currentThread().getId() + ".txt";
 		try{
 			FileWriter fw = new FileWriter(pathToFile + outputFilename,true );
 			BufferedWriter bw = new BufferedWriter(fw);
-			bw.append("===Thread ID = " + Thread.currentThread().getId() + "===\n");
-			bw.append("BBL's = " + b_count + "\n");	
+			bw.append("" + b_count);	
 			bw.close();
 		} catch(IOException ioe){
 			ioe.printStackTrace();	
