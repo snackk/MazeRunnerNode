@@ -1,5 +1,0 @@
-./com/mazerunner/node/Publisher.java
-./com/mazerunner/node/mss/MSSManagerNode.java
-./com/mazerunner/node/ws/MazeRunnerProxyConnection.java
-./com/mazerunner/node/ws/MazeRunnerImpl.java
-./com/mazerunner/node/ws/MazeRunnerService.java
