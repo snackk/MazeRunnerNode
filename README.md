@@ -36,4 +36,4 @@ $ mvn clean exec:java -Dexec.args=localhost
 $ java -jar MazeRunnerNode-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-  Written by Diogo Santos.
+  Written by [@snackk](https://github.com/snackk)
